@@ -1,4 +1,4 @@
-context.solver.local.execfile = 'D:/IBM_ILOG_CPLEX_Studio201/cpoptimizer/bin/x64_win64/cpoptimizer.exe'
+context.solver.local.execfile = '/Applications/CPLEX_Studio201/cpoptimizer/bin/x86-64_osx/cpoptimizer'
 context.solver.trace_cpo = False
 context.solver.trace_log = True
 context.solver.add_log_to_solution = False

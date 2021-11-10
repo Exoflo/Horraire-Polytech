@@ -1,5 +1,10 @@
 import math
-import data.io as TFEdata
+
+import sys
+sys.path.append("/Users/floriandubois/Documents/GitHub/TFE_horaires_FPMS/data")
+
+
+import iothomas as TFEdata
 import variables as TFEvariables
 import docplex.cp.model as cp
 import itertools

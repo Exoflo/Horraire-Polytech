@@ -1,5 +1,9 @@
 import CursusGroups as TFEcursusGroups
-import data.io as TFEdata
+
+import sys
+sys.path.append("/Users/floriandubois/Documents/GitHub/TFE_horaires_FPMS/data")
+
+import iothomas as TFEdata
 import docplex.cp.model as cp
 import pandas as pd
 import math
