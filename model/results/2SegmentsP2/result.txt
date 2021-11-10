@@ -1,0 +1,129 @@
+D:\Thomas\Documents\UNIF\MA2\TFE\Solver\venv\Scripts\python.exe D:/Thomas/Documents/UNIF/MA2/TFE/Solver/model3/runModel4.py
+22:15:21
+delta 57
+0.4242866039276123
+Model: runModel4
+ - source file: D:/Thomas/Documents/UNIF/MA2/TFE/Solver/model3/runModel4.py
+ - modeling time: 0.46 sec
+ - number of integer variables:  0
+ - number of interval variables: 234
+ - number of expressions:        1008
+ - number of expression nodes:   3879
+ - operations:                   _trunc: 206, and: 152, endBeforeStart: 61, endOf: 324, equal: 125, floatDiv: 206, forbidExtent: 192, forbidStart: 90, greaterOrEqual: 258, lessOrEqual: 324, minimize: 1, noOverlap: 143, or: 35, scalProd: 1, startEval: 106, startOf: 552, sum: 2
+StartSolve: Unknown, objective: None bounds: None, gaps: None, time: 0, memory: 1187632
+StartExtraction: Unknown, objective: None bounds: None, gaps: None, time: 0, memory: 1190560
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 377 variables, 1006 constraints
+ ! Presolve      : 192 extractables eliminated, 42 constraints generated
+ ! TimeLimit            = 3000
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.02s (0.02s extraction + 0.00s propagation)
+ !  . Log search space  : 928.2 (before), 928.2 (after)
+ !  . Memory usage      : 3.2 MB (before), 3.2 MB (after)
+ ! Using parallel search with 12 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+EndExtraction: Unknown, objective: None bounds: None, gaps: None, time: 0.017, memory: 4740328
+StartSearch: Unknown, objective: None bounds: None, gaps: None, time: 0.024, memory: 4747192
+StartInitialPropagation: Unknown, objective: None bounds: None, gaps: None, time: 0.024, memory: 4747928
+EndInitialPropagation: Unknown, objective: None bounds: None, gaps: None, time: 0.026, memory: 4944920
+                        0        323                 -
+ + New bound is 0
+ObjBound: Unknown, objective: None bounds: (0,), gaps: None, time: 0.027, memory: 4945338
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ ! Using failure-directed search.
+ *           109    8745k  1835.85s     1      (gap is 100.0%)
+Solution: Feasible, objective: (109,) bounds: (0,), gaps: (1,), time: 1835.86, memory: 51900968
+ *            92    8751k  1836.11s     1      (gap is 100.0%)
+Solution: Feasible, objective: (92,) bounds: (0,), gaps: (1,), time: 1836.11, memory: 52652418
+ *            82    8757k  1837.94s     1      (gap is 100.0%)
+Solution: Feasible, objective: (82,) bounds: (0,), gaps: (1,), time: 1837.93, memory: 63747086
+ *            81    8757k  1837.94s     1      (gap is 100.0%)
+Solution: Feasible, objective: (81,) bounds: (0,), gaps: (1,), time: 1837.94, memory: 63813948
+ *            79    8758k  1838.11s     1      (gap is 100.0%)
+Solution: Feasible, objective: (79,) bounds: (0,), gaps: (1,), time: 1838.11, memory: 64011401
+ *            76    8758k  1838.12s     1      (gap is 100.0%)
+Solution: Feasible, objective: (76,) bounds: (0,), gaps: (1,), time: 1838.11, memory: 64012240
+ *            74    8759k  1838.12s     1      (gap is 100.0%)
+Solution: Feasible, objective: (74,) bounds: (0,), gaps: (1,), time: 1838.12, memory: 64017637
+ *            69    8759k  1838.13s     1      (gap is 100.0%)
+Solution: Feasible, objective: (69,) bounds: (0,), gaps: (1,), time: 1838.12, memory: 64018059
+ *            66    8761k  1838.53s     1      (gap is 100.0%)
+Solution: Feasible, objective: (66,) bounds: (0,), gaps: (1,), time: 1838.53, memory: 65412502
+ *            65    8761k  1838.53s     1      (gap is 100.0%)
+Solution: Feasible, objective: (65,) bounds: (0,), gaps: (1,), time: 1838.53, memory: 65413343
+ *            61    8761k  1838.54s     1      (gap is 100.0%)
+Solution: Feasible, objective: (61,) bounds: (0,), gaps: (1,), time: 1838.53, memory: 65413279
+ *            59    39922  1838.99s    11      (gap is 100.0%)
+Solution: Feasible, objective: (59,) bounds: (0,), gaps: (1,), time: 1838.98, memory: 66687503
+ *            58    42483  1839.22s    11      (gap is 100.0%)
+Solution: Feasible, objective: (58,) bounds: (0,), gaps: (1,), time: 1839.22, memory: 67122055
+ *            56    42537  1839.22s    11      (gap is 100.0%)
+Solution: Feasible, objective: (56,) bounds: (0,), gaps: (1,), time: 1839.22, memory: 67122859
+ *            47    43129  1839.23s    11      (gap is 100.0%)
+Solution: Feasible, objective: (47,) bounds: (0,), gaps: (1,), time: 1839.22, memory: 67122458
+ *            45    46749  1839.76s    11      (gap is 100.0%)
+Solution: Feasible, objective: (45,) bounds: (0,), gaps: (1,), time: 1839.76, memory: 67313387
+ *            43    40747  1839.97s    12      (gap is 100.0%)
+Solution: Feasible, objective: (43,) bounds: (0,), gaps: (1,), time: 1839.96, memory: 67483851
+ *            42    57887  1841.23s    11      (gap is 100.0%)
+Solution: Feasible, objective: (42,) bounds: (0,), gaps: (1,), time: 1841.23, memory: 67667349
+ *            38    51288  1841.58s    12      (gap is 100.0%)
+ ! Time = 1841.58s, Average fail depth = 115, Memory usage = 68.8 MB
+ ! Current bound is 0 (gap is 100.0%)
+ !          Best Branches  Non-fixed    W       Branch decision
+Solution: Feasible, objective: (38,) bounds: (0,), gaps: (1,), time: 1841.57, memory: 68796690
+ *            37    85380  1842.01s    10      (gap is 100.0%)
+Solution: Feasible, objective: (37,) bounds: (0,), gaps: (1,), time: 1842.01, memory: 69075953
+ *            33    85525  1842.01s    10      (gap is 100.0%)
+Solution: Feasible, objective: (33,) bounds: (0,), gaps: (1,), time: 1842.01, memory: 69076391
+ *            27    68141  1843.01s    11      (gap is 100.0%)
+Solution: Feasible, objective: (27,) bounds: (0,), gaps: (1,), time: 1843, memory: 69143090
+ *            26    64705  1843.57s    12      (gap is 100.0%)
+Solution: Feasible, objective: (26,) bounds: (0,), gaps: (1,), time: 1843.56, memory: 69201201
+ *            25    79913  1844.93s    11      (gap is 100.0%)
+Solution: Feasible, objective: (25,) bounds: (0,), gaps: (1,), time: 1844.93, memory: 69271274
+ *            23    95619  1848.56s    12      (gap is 100.0%)
+Solution: Feasible, objective: (23,) bounds: (0,), gaps: (1,), time: 1848.56, memory: 69446072
+ *            22     147k  1858.11s    12      (gap is 100.0%)
+Solution: Feasible, objective: (22,) bounds: (0,), gaps: (1,), time: 1858.11, memory: 69537512
+ *            20     216k  1866.31s    11      (gap is 100.0%)
+Solution: Feasible, objective: (20,) bounds: (0,), gaps: (1,), time: 1866.3, memory: 69618459
+ *            19     188k  1866.48s    12      (gap is 100.0%)
+Solution: Feasible, objective: (19,) bounds: (0,), gaps: (1,), time: 1866.47, memory: 69748315
+ *            18     261k  1867.18s    10      (gap is 100.0%)
+Solution: Feasible, objective: (18,) bounds: (0,), gaps: (1,), time: 1867.19, memory: 69823349
+ *            16     275k  1870.10s    10      (gap is 100.0%)
+Solution: Feasible, objective: (16,) bounds: (0,), gaps: (1,), time: 1870.1, memory: 69884316
+ *            15    1059k  1978.60s    12      (gap is 100.0%)
+Solution: Feasible, objective: (15,) bounds: (0,), gaps: (1,), time: 1978.6, memory: 70240504
+ *            14    1059k  1978.61s    12      (gap is 100.0%)
+Solution: Feasible, objective: (14,) bounds: (0,), gaps: (1,), time: 1978.6, memory: 70240520
+ *            12   49751k  1995.30s     3      (gap is 100.0%)
+Solution: Feasible, objective: (12,) bounds: (0,), gaps: (1,), time: 1995.29, memory: 70455396
+ *            11    1901k  2088.54s    12      (gap is 100.0%)
+Solution: Feasible, objective: (11,) bounds: (0,), gaps: (1,), time: 2088.54, memory: 70744286
+ *             9   10278k  2088.88s     1      (gap is 100.0%)
+Solution: Feasible, objective: (9,) bounds: (0,), gaps: (1,), time: 2088.88, memory: 70942786
+ *             7   52682k  2394.00s     3      (gap is 100.0%)
+Solution: Feasible, objective: (7,) bounds: (0,), gaps: (1,), time: 2393.99, memory: 72355359
+ *             6   71161k  2870.18s     4      (gap is 100.0%)
+Solution: Feasible, objective: (6,) bounds: (0,), gaps: (1,), time: 2870.17, memory: 71930805
+ ! ----------------------------------------------------------------------------
+ ! Search terminated by limit, 37 solutions found.
+ ! Best objective         : 6 (gap is 100.0%)
+ ! Best bound             : 0
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 1217772610
+ ! Number of fails        : 260196742
+ ! Total memory usage     : 72.3 MB (72.2 MB CP Optimizer + 0.2 MB Concert)
+ ! Time spent in solve    : 3000.39s (3000.37s engine + 0.02s extraction)
+ ! Search speed (br. / s) : 405874.6
+ ! ----------------------------------------------------------------------------
+EndSearch: Feasible, objective: None bounds: None, gaps: None, time: 3000.38, memory: 72165967
+EndSolve: Feasible, objective: None bounds: None, gaps: None, time: 3000.38, memory: 72165711
+3000.7362158298492
+22.595865964889526
+
+Process finished with exit code 0
