@@ -1,7 +1,4 @@
-import sys
-sys.path.append("/Users/floriandubois/Documents/GitHub/TFE_horaires_FPMS/data")
-
-import iothomas as TFEdata
+import data.io as TFEdata
 import docplex.cp.model as cp
 
 class CursusGroups:
@@ -14,7 +11,7 @@ class CursusGroups:
         - value = dictionary with :
             - key = (string) group name (i.e. BA1_A, BA1_B, ...)
             - value = (integer) number of students in this group
-    See /data/iothomas.py for details about the creation of this attribute.
+    See /data/io.py for details about the creation of this attribute.
 
     self.knownDivisions = dictionary with :
         - key = tuple (group_1,...,group_n,numberOfDivisions) configuration of groups and divisions
@@ -43,7 +40,7 @@ class CursusGroups:
         Constructor of CursusGroups class
         Instantiates all data about groups and known divisions
 
-        :param fileDataset: (string) file name of the .xlsx file to load. More information in /data/iothomas.py
+        :param fileDataset: (string) file name of the .xlsx file to load. More information in /data/io.py
         """
         self.cursusData = TFEdata.loadCursusData(fileDataset)
         self.knownDivisions = {

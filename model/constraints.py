@@ -1,10 +1,5 @@
 import math
-
-import sys
-sys.path.append("/Users/floriandubois/Documents/GitHub/TFE_horaires_FPMS/data")
-
-
-import iothomas as TFEdata
+import data.io as TFEdata
 import variables as TFEvariables
 import docplex.cp.model as cp
 import itertools
@@ -141,8 +136,9 @@ def spreadIntervalVariablesOverSegments(model, lessonDict, constants):
     totalNumberOfSegments = int(constants["weeks"] / constants["segmentSize"])
     for AA in lessonDict.values():
         for variablesOfDivision in AA["divisions"]:
-            modelSegmentBounds = (math.floor((AA["weekBounds"][0] - 1) / constants["segmentSize"]),
-                                  math.ceil(AA["weekBounds"][1] / constants["segmentSize"]))
+            if isinstance(AA["weekBounds"][0],int):
+                modelSegmentBounds = (math.floor((AA["weekBounds"][0] - 1) / constants["segmentSize"]),
+                                      math.ceil(AA["weekBounds"][1] / constants["segmentSize"]))
             sizeOfFullSequence = modelSegmentBounds[1]-modelSegmentBounds[0]
             numberOfFullSequences = math.trunc(len(variablesOfDivision)/sizeOfFullSequence)
             sizeOfFloatingSequence = int(len(variablesOfDivision)%sizeOfFullSequence)

@@ -4,12 +4,9 @@ import timetable as TFEtimetable
 import objectives as TFEobjectives
 import callbacks as TFEcallbacks
 import initialization as TFEinitialization
+import data.colors as colors
 import time
 import docplex.cp.model as cp
-
-import sys
-sys.path.append("/Users/floriandubois/Documents/GitHub/TFE_horaires_FPMS/data")
-import colors as colors
 
 """
 This script represents the configuration in the section 7.2.4
@@ -56,7 +53,7 @@ constants = {
         "BA3_MECA": True,
         "BA3_MIN": True
     },
-    "quadri": "Q1",
+    "quadri": "Q2",
     "fileDataset": "datasetFinal.xlsx",
     "folderResults": "4SegmentsFinal",
     "groupAuto": False
@@ -136,16 +133,16 @@ if solution:
     begin = time.time()
 
     # (Un)comment this line to print the values of each interval variable
-    solution.write()
+    # solution.write()
 
     # (Un)comment these lines to save (in the constants["folderResults"] folder) and/or display timetables
-    TFEtimetable.generateAndSaveTimetables(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
-    TFEtimetable.generateAndSaveTimetables(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
-    TFEtimetable.generateAndSaveTimetables(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, constants, colors.COLORS)
-    TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_A", constants, colors.COLORS)
-    TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_B", constants, colors.COLORS)
-    TFEtimetable.generateAndDisplayTimetable(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, "Ho.12", constants, colors.COLORS)
-    TFEtimetable.generateAndDisplayTimetable(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, "Vandaele A", constants, colors.COLORS)
+    # TFEtimetable.generateAndSaveTimetables(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
+    # TFEtimetable.generateAndSaveTimetables(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
+    # TFEtimetable.generateAndSaveTimetables(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, constants, colors.COLORS)
+    # TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_A", constants, colors.COLORS)
+    # TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_B", constants, colors.COLORS)
+    # TFEtimetable.generateAndDisplayTimetable(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, "Ho.12", constants, colors.COLORS)
+    # TFEtimetable.generateAndDisplayTimetable(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, "Vandaele A", constants, colors.COLORS)
 
     print(time.time() - begin)
 

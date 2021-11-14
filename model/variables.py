@@ -1,9 +1,5 @@
 import CursusGroups as TFEcursusGroups
-
-import sys
-sys.path.append("/Users/floriandubois/Documents/GitHub/TFE_horaires_FPMS/data")
-
-import iothomas as TFEdata
+import data.io as TFEdata
 import docplex.cp.model as cp
 import pandas as pd
 import math
@@ -193,7 +189,7 @@ def generateIntervalVariables(constants):
                     # i.e. for 5 multiplied lessons, 4 rooms (R1, R2, R3, R4) and exerciseSplit = 2 :
                     #   - the subset R1,R2 will be planned for the first, third and fifth division
                     #   - the subset R3,R4 will be planned for the second and fourth division
-                    if rowAA.exerciseSplit != 0:
+                    if rowAA.exerciseSplit != 0 and isinstance(rowAA.exerciseSplit,int):
                         # for teachers
                         # numberSubsets = number of subsets of teachers
                         numberSubsets = math.ceil(len(listOfTeachers) / rowAA.exerciseSplit)
@@ -274,8 +270,9 @@ def generateIntervalVariables(constants):
                     for teacher in rowAA.tpTeachers.split(","):
                         teachersIntervalVariables[teacher].append(tpIntervalVariable)
                     # the "tpRooms" field in dataset contains all rooms for AA' tps, separated with ","
-                    for room in rowAA.tpRooms.split(","):
-                        roomsIntervalVariables[room].append(tpIntervalVariable)
+                    if isinstance(rowAA.tpRooms,str):
+                        for room in rowAA.tpRooms.split(","):
+                            roomsIntervalVariables[room].append(tpIntervalVariable)
 
         # creating interval variables for projects
         # an AA has projects iff its "projectHours" field in the dataset has a value
