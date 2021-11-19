@@ -136,8 +136,9 @@ def spreadIntervalVariablesOverSegments(model, lessonDict, constants):
     totalNumberOfSegments = int(constants["weeks"] / constants["segmentSize"])
     for AA in lessonDict.values():
         for variablesOfDivision in AA["divisions"]:
-            if isinstance(AA["weekBounds"][0],int):
-                modelSegmentBounds = (math.floor((AA["weekBounds"][0] - 1) / constants["segmentSize"]),
+            if not isinstance(AA["weekBounds"][0],int) and not isinstance(AA["weekBounds"][1],int):
+                continue
+            modelSegmentBounds = (math.floor((AA["weekBounds"][0] - 1) / constants["segmentSize"]),
                                       math.ceil(AA["weekBounds"][1] / constants["segmentSize"]))
             sizeOfFullSequence = modelSegmentBounds[1]-modelSegmentBounds[0]
             numberOfFullSequences = math.trunc(len(variablesOfDivision)/sizeOfFullSequence)
@@ -198,7 +199,7 @@ def breakSymmetryBetweenFullSequences(model, lessonDict, constants):
 
 def lecturesBeforeConstraint(model, lecturesDict, listOfAfterLessonsDict, AAset, constants):
     for idAA in AAset:
-        if idAA in lecturesDict:
+        if idAA in lecturesDict and isinstance(lecturesDict[idAA]["weekBounds"][0],int) and isinstance(lecturesDict[idAA]["weekBounds"][1],int):
             modelWeekBoundsLecture = (math.floor((lecturesDict[idAA]["weekBounds"][0] - 1) / constants["segmentSize"]),
                                       math.ceil(lecturesDict[idAA]["weekBounds"][1] / constants["segmentSize"]))
             sizeOfFullSequenceLecture = modelWeekBoundsLecture[1] - modelWeekBoundsLecture[0]

@@ -46,14 +46,14 @@ constants = {
     "roundUp": True,
     "cursus": {
         "BA1": True,
-        "BA2": True,
+        "BA2": False,
         "BA3_CHIM": True,
         "BA3_ELEC": True,
         "BA3_IG": True,
         "BA3_MECA": True,
         "BA3_MIN": True
     },
-    "quadri": "Q2",
+    "quadri": "Q1",
     "fileDataset": "datasetFinal.xlsx",
     "folderResults": "4SegmentsFinal",
     "groupAuto": False
@@ -101,11 +101,13 @@ TFEconstraints.spreadIntervalVariablesOverSegments(model, projectsDict, constant
 TFEconstraints.lecturesBeforeConstraint(model, lecturesDict, [exercisesDict,tpsDict], AAset, constants)
 
 # synchronise exercises of I-PHYS-020 and I-SDMA-020
-TFEinitialization.simultaneousGroups(model,exercisesDict["I-PHYS-020"],exercisesDict["I-SDMA-020"])
+if constants["quadri"] == "Q1":
+    TFEinitialization.simultaneousGroups(model,exercisesDict["I-PHYS-020"],exercisesDict["I-SDMA-020"])
 
 # place projects I-POLY-011 and I-ILIA-024 friday afternoon
-TFEinitialization.fixedSlots(model, projectsDict["I-POLY-011"], 5, 3, constants)
-TFEinitialization.fixedSlots(model, projectsDict["I-ILIA-024"], 5, 3, constants)
+if constants["quadri"] == "Q1":
+    TFEinitialization.fixedSlots(model, projectsDict["I-POLY-011"], 5, 3, constants)
+    TFEinitialization.fixedSlots(model, projectsDict["I-ILIA-024"], 5, 3, constants)
 
 objectiveFunctions = []
 coefficients = []
@@ -125,7 +127,7 @@ model.write_information()
 ################# SETUP MODEL #################
 
 ################# SOLVING AND RESULTS #################
-solution = model.solve(TimeLimit=60*60*8)
+solution = model.solve(TimeLimit=60*5)
 
 # "if solution" is True if there is at least one solution
 if solution:
@@ -133,16 +135,16 @@ if solution:
     begin = time.time()
 
     # (Un)comment this line to print the values of each interval variable
-    # solution.write()
+    solution.write()
 
     # (Un)comment these lines to save (in the constants["folderResults"] folder) and/or display timetables
-    # TFEtimetable.generateAndSaveTimetables(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
-    # TFEtimetable.generateAndSaveTimetables(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
-    # TFEtimetable.generateAndSaveTimetables(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, constants, colors.COLORS)
-    # TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_A", constants, colors.COLORS)
-    # TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_B", constants, colors.COLORS)
-    # TFEtimetable.generateAndDisplayTimetable(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, "Ho.12", constants, colors.COLORS)
-    # TFEtimetable.generateAndDisplayTimetable(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, "Vandaele A", constants, colors.COLORS)
+    TFEtimetable.generateAndSaveTimetables(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
+    TFEtimetable.generateAndSaveTimetables(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, constants, colors.COLORS)
+    TFEtimetable.generateAndSaveTimetables(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, constants, colors.COLORS)
+    TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_A", constants, colors.COLORS)
+    TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_B", constants, colors.COLORS)
+    TFEtimetable.generateAndDisplayTimetable(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, "Ho.12", constants, colors.COLORS)
+    TFEtimetable.generateAndDisplayTimetable(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, "Vandaele A", constants, colors.COLORS)
 
     print(time.time() - begin)
 
