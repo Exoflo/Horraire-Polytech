@@ -122,11 +122,13 @@ def generateIntervalVariables(constants):
             for group in listOfGroups:
                 groupsIntervalVariables[group].extend(lectureIntervalVariables)
             # the "lectureTeachers" field in dataset contains all teachers for AA' lectures, separated with ","
-            for teacher in rowAA.lectureTeachers.split(","):
-                teachersIntervalVariables[teacher].extend(lectureIntervalVariables)
+            if isinstance(rowAA.lectureTeachers,str):
+                for teacher in rowAA.lectureTeachers.split(","):
+                    teachersIntervalVariables[teacher].extend(lectureIntervalVariables)
             # the "lectureRooms" field in dataset contains all rooms for AA' lectures, separated with ","
-            for room in rowAA.lectureRooms.split(","):
-                roomsIntervalVariables[room].extend(lectureIntervalVariables)
+            if isinstance(rowAA.lectureRooms, str):
+                for room in rowAA.lectureRooms.split(","):
+                    roomsIntervalVariables[room].extend(lectureIntervalVariables)
 
         # creating interval variables for exercises
         # an AA has exercises iff its "exerciseHours" field in the dataset has a value

@@ -47,11 +47,16 @@ constants = {
     "cursus": {
         "BA1": True,
         "BA2": False,
-        "BA3_CHIM": True,
-        "BA3_ELEC": True,
+        "BA3_CHIM": False,
+        "BA3_ELEC": False,
         "BA3_IG": True,
-        "BA3_MECA": True,
-        "BA3_MIN": True
+        "BA3_MECA": False,
+        "BA3_MIN": False,
+        "MA1_CHIM": False,
+        "MA1_ELEC": False,
+        "MA1_IG": True,
+        "MA1_MECA": False,
+        "MA1_MIN": False,
     },
     "quadri": "Q1",
     "fileDataset": "datasetFinal.xlsx",
@@ -75,29 +80,29 @@ lecturesDict, exercisesDict, tpsDict, projectsDict, \
 groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, \
 cursusGroups, AAset = TFEvariables.generateIntervalVariables(constants)
 
-# constraint 6.3.4
+# constraint 6.3.4 : Unavailability
 TFEconstraints.cursusUnavailabilityConstraint(model, cursusGroups, groupsIntervalVariables, constants)
 
-# constraint 6.3.1
+# constraint 6.3.1 : Long interval continuity (4h blocks)
 TFEconstraints.longIntervalVariablesIntegrity(model, tpsDict, constants)
 TFEconstraints.longIntervalVariablesIntegrity(model, projectsDict, constants)
 
-# constraint 6.3.2
+# constraint 6.3.2 : No conflict
 TFEconstraints.notOverlappingConstraint(model, groupsIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, teachersIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, roomsIntervalVariables)
 
-# constraint 6.3.3
+# constraint 6.3.3 : Avoid big delay between same exercices or TP between groups
 TFEconstraints.multipliedVariablesInSameSegmentConstraint(model, exercisesDict, constants)
 TFEconstraints.multipliedVariablesInSameSegmentConstraint(model, tpsDict, constants)
 
-# constraint 6.3.9 (6.3.5 included)
+# constraint 6.3.9 (6.3.5 included) : Segment repartition
 TFEconstraints.spreadIntervalVariablesOverSegments(model, lecturesDict, constants)
 TFEconstraints.spreadIntervalVariablesOverSegments(model, exercisesDict, constants)
 TFEconstraints.spreadIntervalVariablesOverSegments(model, tpsDict, constants)
 TFEconstraints.spreadIntervalVariablesOverSegments(model, projectsDict, constants)
 
-# constraint 6.3.10
+# constraint 6.3.10 : Theory before TP and exercices
 TFEconstraints.lecturesBeforeConstraint(model, lecturesDict, [exercisesDict,tpsDict], AAset, constants)
 
 # synchronise exercises of I-PHYS-020 and I-SDMA-020
@@ -127,7 +132,7 @@ model.write_information()
 ################# SETUP MODEL #################
 
 ################# SOLVING AND RESULTS #################
-solution = model.solve(TimeLimit=60*5)
+solution = model.solve(TimeLimit=60*2)
 
 # "if solution" is True if there is at least one solution
 if solution:
@@ -145,6 +150,7 @@ if solution:
     TFEtimetable.generateAndDisplayTimetable(solution, groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, "BA1_B", constants, colors.COLORS)
     TFEtimetable.generateAndDisplayTimetable(solution, roomsIntervalVariables, teachersIntervalVariables, groupsIntervalVariables, "Ho.12", constants, colors.COLORS)
     TFEtimetable.generateAndDisplayTimetable(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, "Vandaele A", constants, colors.COLORS)
+    TFEtimetable.generateAndDisplayTimetable(solution, teachersIntervalVariables, groupsIntervalVariables, roomsIntervalVariables, "MA1_IG", constants, colors.COLORS)
 
     print(time.time() - begin)
 

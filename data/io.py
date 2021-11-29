@@ -15,6 +15,7 @@ def loadData(fileDataset,quadri,sheet):
     # (dtype=object) is mandatory in order to automatically convert integer values in .xlsx file into integer variables in Python
     dataset = pd.read_excel("../data/"+fileDataset, sheet_name=sheet, engine="openpyxl",dtype=object)
     dataset = dataset[dataset["quadri"]==quadri]
+    print(type(dataset))
     return dataset
 
 def loadCursusData(fileDataset):
