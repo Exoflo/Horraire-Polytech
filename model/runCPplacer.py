@@ -61,7 +61,7 @@ constants = {
     },
     "quadri": "Q1",
     "fileDataset": "datasetFinal.xlsx",
-    "folderResults": "4SegmentsFinal",
+    "folderResults": "CPplacer",
     "groupAuto": False
 }
 

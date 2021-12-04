@@ -145,6 +145,7 @@ def spreadIntervalVariablesOverSegments(model, lessonDict, constants):
             sizeOfFloatingSequence = int(len(variablesOfDivision)%sizeOfFullSequence)
             for i in range(numberOfFullSequences):
                 for j in range(sizeOfFullSequence):
+                    print(variablesOfDivision[i * sizeOfFullSequence + j])
                     model.add(cp.start_of(variablesOfDivision[i * sizeOfFullSequence + j])
                               >= (modelSegmentBounds[0] + j) * constants["days"] * constants["slots"])
                     model.add(cp.end_of(variablesOfDivision[i * sizeOfFullSequence + j])
@@ -300,3 +301,18 @@ def lecturesBeforeConstraint(model, lecturesDict, listOfAfterLessonsDict, AAset,
                                                                                   <= cp.start_of(variablesOfDivisionAfterLesson[i])))
                                             scenarios.append(cp.logical_and(constraintsOfScenario))
                                         model.add(cp.logical_or(scenarios))
+
+
+
+#Partie Projet Horaire
+def spreadOverWeek(model, weekDict, constants):
+    for weeks,AAlist in weekDict:
+        weeknumber = int(weeks.split()[1])
+        for AA in AAlist:
+            if AA["group"] in constants["cursus"]:
+                model.add(cp.start_of(AA) >= weeknumber * constants["days"] * constants["slots"] + 1)
+                model.add(cp.start_of(AA) <= (weeknumber+1) * constants["days"] * constants["slots"])
+
+
+
+
