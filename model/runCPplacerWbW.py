@@ -6,6 +6,7 @@ import callbacks as TFEcallbacks
 import initialization as TFEinitialization
 import data.colors as colors
 import time
+import json
 import docplex.cp.model as cp
 
 """
@@ -42,25 +43,25 @@ constants = {
     "weeks":12,
     "days":5,
     "slots":4,
-    "segmentSize":3,
+    "segmentSize":1,
     "roundUp": True,
     "cursus": {
         "BA1": True,
-        "BA2": False,
-        "BA3_CHIM": False,
-        "BA3_ELEC": False,
+        "BA2": True,
+        "BA3_CHIM": True,
+        "BA3_ELEC": True,
         "BA3_IG": True,
-        "BA3_MECA": False,
-        "BA3_MIN": False,
+        "BA3_MECA": True,
+        "BA3_MIN": True,
         "MA1_CHIM": False,
         "MA1_ELEC": False,
-        "MA1_IG": True,
+        "MA1_IG": False,
         "MA1_MECA": False,
         "MA1_MIN": False,
     },
     "quadri": "Q1",
     "fileDataset": "datasetFinal.xlsx",
-    "folderResults": "4SegmentsFinal",
+    "folderResults": "CPplacer",
     "groupAuto": False
 }
 
@@ -78,7 +79,8 @@ Generates variables and place them in appropriate dict for later use :
 """
 lecturesDict, exercisesDict, tpsDict, projectsDict, \
 groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, \
-cursusGroups, AAset = TFEvariables.generateIntervalVariables(constants)
+cursusGroups, AAset = TFEvariables.generateIntervalVariablesForJSON(constants,"../data/weekseparation.json")
+
 
 # constraint 6.3.4 : Unavailability
 TFEconstraints.cursusUnavailabilityConstraint(model, cursusGroups, groupsIntervalVariables, constants)
@@ -88,14 +90,10 @@ TFEconstraints.longIntervalVariablesIntegrity(model, tpsDict, constants)
 TFEconstraints.longIntervalVariablesIntegrity(model, projectsDict, constants)
 
 # constraint 6.3.2 : No conflict
-print(teachersIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, groupsIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, teachersIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, roomsIntervalVariables)
 
-# constraint 6.3.3 : Avoid big delay between same exercices or TP between groups
-TFEconstraints.multipliedVariablesInSameSegmentConstraint(model, exercisesDict, constants)
-TFEconstraints.multipliedVariablesInSameSegmentConstraint(model, tpsDict, constants)
 
 # constraint 6.3.9 (6.3.5 included) : Segment repartition
 TFEconstraints.spreadIntervalVariablesOverSegments(model, lecturesDict, constants)
@@ -106,14 +104,6 @@ TFEconstraints.spreadIntervalVariablesOverSegments(model, projectsDict, constant
 # constraint 6.3.10 : Theory before TP and exercices
 TFEconstraints.lecturesBeforeConstraint(model, lecturesDict, [exercisesDict,tpsDict], AAset, constants)
 
-# synchronise exercises of I-PHYS-020 and I-SDMA-020
-if constants["quadri"] == "Q1":
-    TFEinitialization.simultaneousGroups(model,exercisesDict["I-PHYS-020"],exercisesDict["I-SDMA-020"])
-
-# place projects I-POLY-011 and I-ILIA-024 friday afternoon
-if constants["quadri"] == "Q1":
-    TFEinitialization.fixedSlots(model, projectsDict["I-POLY-011"], 5, 3, constants)
-    TFEinitialization.fixedSlots(model, projectsDict["I-ILIA-024"], 5, 3, constants)
 
 objectiveFunctions = []
 coefficients = []

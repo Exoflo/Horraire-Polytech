@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 import math
 
 def loadData(fileDataset,quadri,sheet):
@@ -62,3 +63,137 @@ def loadCursusData(fileDataset):
             cursusData[rowCursus.cursus][rowCursus.cursus] = baseNumberOfStudents
 
     return cursusData
+
+
+def loadDataFromJSON(fileDataset, numSemaine):
+    with open(fileDataset, encoding='utf-8') as fh:
+        data = json.load(fh)
+
+    AllData = []
+
+    nameSemaine = "Semaine " + str(numSemaine)
+    for d1 in data:
+        if nameSemaine in d1:
+            for d in d1[nameSemaine]:
+                # ---------------conversion des données en qqc de lisible pour nous et le code---------------------------#
+                subject = d["subject"].split(':')
+                prof = d["prof"]
+                group = d["group"]
+
+                # subject reprend l'id et le type de cours, on remettra comme il faut le cours après
+                ID = subject[0]
+                typeCursus = subject[1]
+
+                # Les teachers sont ressencé comme une liste d'id. Pour éviter les problèmes, on retransforme tout en string.
+                # Les id devraient pas posé de problème, on s'en fout un peu de leur nom en soit, juste on peut pas appliquer de desiderata
+                teachers = ""
+                for p in prof:
+                    teachers = teachers + "," + str(p)
+                teachers = teachers[1:]
+
+                # Cursus pose pas mal de problème au vue de la division en groupe. En plus ils reprennent les master et les archi.
+                # Ca pose pas de problème en soit pour archi et master, au contraire, mais pour l'instant on mettra ça de coté.
+                # Par contre il faut remettre les group comme étant des cursus, on fait nous même la division en groupe.
+                setCursus = set()
+                for g in group:
+                    g = str(g).replace('-', '_')
+
+                    if "BAB1" in g:
+                        g = "BA1"
+                    elif "BAB2" in g:
+                        g = "BA2"
+                    elif "BAB3_CHIM" in g:
+                        g = "BA3_CHIM"
+                    elif "BAB3_ELEC" in g:
+                        g = "BA3_ELEC"
+                    elif "BAB3_IG" in g:
+                        g = "BA3_IG"
+                    elif "BAB3_MECA" in g:
+                        g = "BA3_MECA"
+                    elif "BAB3_MIN" in g:
+                        g = "BA3_MIN"
+                    else:
+                        # print(g) #debug
+                        continue
+                    setCursus.add(g)
+
+                if len(setCursus) > 0:
+                    # Même chose que ce qu'on faisait avec teacher
+                    cursus = ""
+                    for c in setCursus:
+                        cursus = cursus + "," + str(c)
+                    cursus = cursus[1:]
+
+                    # Deux possibilité ici, soit on s'en blc qu'un id soit plusieurs fois dans AllData, soit on s'en fout pas xD
+                    # Dans un premier temps, on peut dire qu'on s'en fout, mais sur le long terme surement qu'on devra s'en soucier.
+                    # Il me semble que dans la fonciton objective de thomas, les heures d'exos doivent être après la théorie dans une même semaine.
+                    # Faire le dico avec toutes les clés pour éviter des erreurs dans le code de thomas, le reste sera hard codé tkt
+                    dic = {
+                        "cursus": cursus,
+                        "id": ID,
+                        "name": "",
+                        "quadri": "",
+                        "lectureHours": float('nan'),
+                        "lectureTeachers": float('nan'),
+                        "lectureRooms": float('nan'),
+                        "lectureWeekStart": float('nan'),
+                        "lectureWeekEnd": float('nan'),
+                        "exerciseHours": float('nan'),
+                        "exerciseDivisions": float('nan'),
+                        "exerciseTeachers": float('nan'),
+                        "exerciseRooms": float('nan'),
+                        "exerciseSplit": float('nan'),
+                        "exerciseWeekStart": float('nan'),
+                        "exerciseWeekEnd": float('nan'),
+                        "tpHours": float('nan'),
+                        "tpDuration": float('nan'),
+                        "tpDivisions": float('nan'),
+                        "tpTeachers": float('nan'),
+                        "tpRooms": float('nan'),
+                        "tpWeekStart": float('nan'),
+                        "tpWeekEnd": float('nan'),
+                        "projectHours": float('nan'),
+                        "projectDuration": float('nan'),
+                        "projectTeachers": float('nan'),
+                        "projectWeekStart": float('nan'),
+                        "projectWeekEnd": float('nan'),
+                        "TP_special": float('nan'),
+                        "Remediations": float('nan'),
+                        "Visits": float('nan'),
+                        "Order": float('nan'),
+                        "Rythm": float('nan')
+                    }
+
+                    # on fill le nombre d'heure dans les endroits où y'a un cours, on mets des teachers et des rooms
+                    if subject == "theory" or subject == "theory_exercise" or subject == "mixed":
+                        dic["lectureHours"] = 2
+                        dic["lectureTeachers"] = teachers
+                        # L'algo va surement buguer si on assigne pas de locaux
+                        dic["lectureRooms"] = cursus
+
+                        dic["lectureWeekStart"] = numSemaine + 1
+                        dic["lectureWeekEnd"] = numSemaine + 1
+                    elif subject == "exercise":
+                        dic["exerciseHours"] = 2
+                        dic["exerciseTeachers"] = teachers
+                        # L'algo va surement buguer si on assigne pas de locaux
+                        dic["exerciseRooms"] = cursus
+
+                        dic["exerciseWeekStart"] = numSemaine + 1
+                        dic["exerciseWeekEnd"] = numSemaine + 1
+                    elif subject == "TP":
+                        dic["tpHours"] = 4
+                        dic["tpTeachers"] = teachers
+                        # L'algo va surement buguer si on assigne pas de locaux
+                        dic["tpRooms"] = cursus
+
+                        dic["tpWeekStart"] = numSemaine + 1
+                        dic["tpWeekEnd"] = numSemaine + 1
+                    elif subject == "project":
+                        dic["projectHours"] = 4
+                        dic["projectTeachers"] = teachers
+
+                        dic["projectWeekStart"] = numSemaine + 1
+                        dic["projectWeekEnd"] = numSemaine + 1
+                    AllData.append(dic)
+    return pd.DataFrame(data=AllData)

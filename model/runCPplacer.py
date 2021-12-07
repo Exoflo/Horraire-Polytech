@@ -97,10 +97,7 @@ TFEconstraints.notOverlappingConstraint(model, roomsIntervalVariables)
 
 
 # constraint 6.3.9 (6.3.5 included) : Segment repartition
-TFEconstraints.spreadIntervalVariablesOverSegments(model, lecturesDict, constants)
-TFEconstraints.spreadIntervalVariablesOverSegments(model, exercisesDict, constants)
-TFEconstraints.spreadIntervalVariablesOverSegments(model, tpsDict, constants)
-TFEconstraints.spreadIntervalVariablesOverSegments(model, projectsDict, constants)
+TFEconstraints.spreadOverWeek(model,weekDict,constants)
 
 # constraint 6.3.10 : Theory before TP and exercices
 TFEconstraints.lecturesBeforeConstraint(model, lecturesDict, [exercisesDict,tpsDict], AAset, constants)
