@@ -81,6 +81,10 @@ lecturesDict, exercisesDict, tpsDict, projectsDict, \
 groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, \
 cursusGroups, AAset = TFEvariables.generateIntervalVariables(constants)
 
+#print(lecturesDict, "\n",exercisesDict,"\n", tpsDict,"\n", projectsDict,"\n", \
+#groupsIntervalVariables,"\n", teachersIntervalVariables,"\n", roomsIntervalVariables,"\n", \
+#cursusGroups,"\n", AAset,"\n")
+
 weekDict = json.load(open("../data/weekseparation.json"))
 
 # constraint 6.3.4 : Unavailability
@@ -90,7 +94,7 @@ TFEconstraints.cursusUnavailabilityConstraint(model, cursusGroups, groupsInterva
 TFEconstraints.longIntervalVariablesIntegrity(model, tpsDict, constants)
 TFEconstraints.longIntervalVariablesIntegrity(model, projectsDict, constants)
 
-# constraint 6.3.2 : No conflict
+# constraint 6.3.2 : No conflictc
 TFEconstraints.notOverlappingConstraint(model, groupsIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, teachersIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, roomsIntervalVariables)

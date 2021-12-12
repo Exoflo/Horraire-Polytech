@@ -80,6 +80,10 @@ lecturesDict, exercisesDict, tpsDict, projectsDict, \
 groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, \
 cursusGroups, AAset = TFEvariables.generateIntervalVariables(constants)
 
+print(lecturesDict, "\n",exercisesDict,"\n", tpsDict,"\n", projectsDict,"\n",
+groupsIntervalVariables,"\n", teachersIntervalVariables,"\n", roomsIntervalVariables,"\n",
+cursusGroups,"\n", AAset,"\n")
+
 # constraint 6.3.4 : Unavailability
 TFEconstraints.cursusUnavailabilityConstraint(model, cursusGroups, groupsIntervalVariables, constants)
 
@@ -88,12 +92,11 @@ TFEconstraints.longIntervalVariablesIntegrity(model, tpsDict, constants)
 TFEconstraints.longIntervalVariablesIntegrity(model, projectsDict, constants)
 
 # constraint 6.3.2 : No conflict
-print(teachersIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, groupsIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, teachersIntervalVariables)
 TFEconstraints.notOverlappingConstraint(model, roomsIntervalVariables)
 
-# constraint 6.3.3 : Avoid big delay between same exercices or TP between groups
+# constraint 6.3.3 : Avoid big delay between same exercises or TP between groups
 TFEconstraints.multipliedVariablesInSameSegmentConstraint(model, exercisesDict, constants)
 TFEconstraints.multipliedVariablesInSameSegmentConstraint(model, tpsDict, constants)
 

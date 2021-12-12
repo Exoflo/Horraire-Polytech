@@ -311,62 +311,63 @@ def spreadOverWeek(model, weekDict, constants):
         weeknumber = int(week.split()[1])
 
         for AA in AAlist:
-            if AA["group"] in constants["cursus"]:
-                if AA["subject"].split()[1] == "theory" or AA["subject"].split()[1] == "theory_exercise" or AA["subject"].split()[1] == "mixed":
-                    # cp.interval_var creates one interval variable
-                    IntervalVariable = cp.interval_var(start=(
-                    weeknumber * constants["days"] * constants["slots"],
-                    (weeknumber + 1) * constants["days"] * constants["slots"] - 1),
-                                                               end=(
-                                                               weeknumber * constants["days"] * constants["slots"] + 1,
-                                                               (weeknumber + 1) * constants["days"] * constants[
-                                                                   "slots"]),
-                                                               # the first end time for an exercise interval variable is "1"
-                                                               size=1,  # the size of an exercise interval variable is 1
-                                                               length=1,
-                                                               # the length of an exercise interval variable is 1
-                                                               name=AA["subject"].split()[
-                                                                        0] + "_lec")  # the 3_rd exercise interval variable of I-XXX-000 in the 1_st division will have the name "I-XXX-000_ex_2_d_0"
+            for group in AA["group"]:
+                if group in constants["cursus"]:
+                    if AA["subject"].split(":")[1] == "theory" or AA["subject"].split(":")[1] == "theory_exercise" or AA["subject"].split(":")[1] == "mixed":
+                        # cp.interval_var creates one interval variable
+                        IntervalVariable = cp.interval_var(start=(
+                        weeknumber * constants["days"] * constants["slots"],
+                        (weeknumber + 1) * constants["days"] * constants["slots"] - 1),
+                                                                   end=(
+                                                                   weeknumber * constants["days"] * constants["slots"] + 1,
+                                                                   (weeknumber + 1) * constants["days"] * constants[
+                                                                       "slots"]),
+                                                                   # the first end time for an exercise interval variable is "1"
+                                                                   size=1,  # the size of an exercise interval variable is 1
+                                                                   length=1,
+                                                                   # the length of an exercise interval variable is 1
+                                                                   name=AA["subject"].split()[
+                                                                            0] + "_lec")  # the 3_rd exercise interval variable of I-XXX-000 in the 1_st division will have the name "I-XXX-000_ex_2_d_0"
 
-                elif AA["subject"].split()[1] == "exercise":
-                    # cp.interval_var creates one interval variable
-                    IntervalVariable = cp.interval_var(start=(
-                    weeknumber * constants["days"] * constants["slots"],
-                    (weeknumber + 1) * constants["days"] * constants["slots"] - 1),
-                                                               end=(
-                                                               weeknumber * constants["days"] * constants["slots"] + 1,
-                                                               (weeknumber + 1) * constants["days"] * constants[
-                                                                   "slots"]),
-                                                               # the first end time for an exercise interval variable is "1"
-                                                               size=1,  # the size of an exercise interval variable is 1
-                                                               length=1,
-                                                               # the length of an exercise interval variable is 1
-                                                               name=AA["subject"].split()[
-                                                                        0] + "_ex")  # the 3_rd exercise interval variable of I-XXX-000 in the 1_st division will have the name "I-XXX-000_ex_2_d_0"
+                    elif AA["subject"].split(":")[1] == "exercise":
+                        # cp.interval_var creates one interval variable
+                        IntervalVariable = cp.interval_var(start=(
+                        weeknumber * constants["days"] * constants["slots"],
+                        (weeknumber + 1) * constants["days"] * constants["slots"] - 1),
+                                                                   end=(
+                                                                   weeknumber * constants["days"] * constants["slots"] + 1,
+                                                                   (weeknumber + 1) * constants["days"] * constants[
+                                                                       "slots"]),
+                                                                   # the first end time for an exercise interval variable is "1"
+                                                                   size=1,  # the size of an exercise interval variable is 1
+                                                                   length=1,
+                                                                   # the length of an exercise interval variable is 1
+                                                                   name=AA["subject"].split()[
+                                                                            0] + "_ex")  # the 3_rd exercise interval variable of I-XXX-000 in the 1_st division will have the name "I-XXX-000_ex_2_d_0"
 
-                elif AA["subject"].split()[1] == "TP":
-                    # cp.interval_var creates one interval variable
-                    IntervalVariable = cp.interval_var(start=(
-                    weeknumber * constants["days"] * constants["slots"],
-                    (weeknumber + 1) * constants["days"] * constants["slots"] - 2),
-                                                               end=(
-                                                               weeknumber * constants["days"] * constants["slots"] + 2,
-                                                               (weeknumber + 1) * constants["days"] * constants[
-                                                                   "slots"]),
-                                                               # the first end time for an exercise interval variable is "1"
-                                                               size=2,  # the size of an exercise interval variable is 1
-                                                               length=2,
-                                                               # the length of an exercise interval variable is 1
-                                                               name=AA["subject"].split()[
-                                                                        0] + "_tp")  # the 3_rd exercise interval variable of I-XXX-000 in the 1_st division will have the name "I-XXX-000_ex_2_d_0"
-
-
-                else :
-                    print("Missing : ",AA["subject"].split()[1])
+                    elif AA["subject"].split(":")[1] == "TP":
+                        # cp.interval_var creates one interval variable
+                        IntervalVariable = cp.interval_var(start=(
+                        weeknumber * constants["days"] * constants["slots"],
+                        (weeknumber + 1) * constants["days"] * constants["slots"] - 2),
+                                                                   end=(
+                                                                   weeknumber * constants["days"] * constants["slots"] + 2,
+                                                                   (weeknumber + 1) * constants["days"] * constants[
+                                                                       "slots"]),
+                                                                   # the first end time for an exercise interval variable is "1"
+                                                                   size=2,  # the size of an exercise interval variable is 1
+                                                                   length=2,
+                                                                   # the length of an exercise interval variable is 1
+                                                                   name=AA["subject"].split()[
+                                                                            0] + "_tp")  # the 3_rd exercise interval variable of I-XXX-000 in the 1_st division will have the name "I-XXX-000_ex_2_d_0"
 
 
-                model.add(cp.start_of(IntervalVariable) >= weeknumber * constants["days"] * constants["slots"] + 1)
-                model.add(cp.start_of(IntervalVariable) <= (weeknumber+1) * constants["days"] * constants["slots"])
+                    else :
+                        print("Missing : ",AA["subject"].split(":")[1])
+
+
+                    model.add(cp.start_of(IntervalVariable) >= weeknumber * constants["days"] * constants["slots"] + 1)
+                    model.add(cp.start_of(IntervalVariable) <= (weeknumber+1) * constants["days"] * constants["slots"])
 
 
 
