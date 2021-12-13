@@ -817,7 +817,7 @@ def generateIntervalVariablesForCPplacing(constants):
 
             # Count occurence of lesson to reference them in order
             if AA["subject"] not in occurence:
-                occurence[AA["subject"]] = 0
+                occurence[AA["subject"]] = -1
             occurence[AA["subject"]] += 1
 
             # creating interval variables for lectures
@@ -882,7 +882,7 @@ def generateIntervalVariablesForCPplacing(constants):
                     size=1,  # the size of all lecture interval variables is 1
                     length=1,  # the length of all lecture interval variables is 1
                     name=IdAA + "_ex" + "_" + str(occurence[AA[
-                        "subject"]]) + "_d_0")  # the 3_rd element of the list of the I-XXX-000 lecture will have the name "I-XXX-000_lec_2"
+                        "subject"]]))  # the 3_rd element of the list of the I-XXX-000 lecture will have the name "I-XXX-000_lec_2"
 
                 # all the interval variables are added to the first and only division for the AA
                 exercisesDict[IdAA]["divisions"][0].append(exerciseIntervalVariables)
@@ -898,7 +898,6 @@ def generateIntervalVariablesForCPplacing(constants):
             # creating interval variables for tp
             # an AA has tp iff its "tpHours" field in the dataset has a value
             if lessonType == "TP":
-                print(listOfGroups)
                 # the following function generates balanced divisions (automatically or not depending on the boolean "constants["groupAuto"]")
                 # it first gets all groups in all cursus contained in "listOfCursus" and returns a dict with key = group ; value = index of division
                 # i.e. two divisions with the cursus "BA1" containing "BA1_A" and "BA1_B" groups, one in each division will result in :
@@ -920,7 +919,7 @@ def generateIntervalVariablesForCPplacing(constants):
                     size=2,  # the size of all lecture interval variables is 1
                     length=2,  # the length of all lecture interval variables is 1
                     name=IdAA + "_tp" + "_" + str(occurence[AA[
-                        "subject"]]) + "_d_0")  # the 3_rd element of the list of the I-XXX-000 lecture will have the name "I-XXX-000_lec_2"
+                        "subject"]]))  # the 3_rd element of the list of the I-XXX-000 lecture will have the name "I-XXX-000_lec_2"
 
                 # all the interval variables are added to the first and only division for the AA
                 tpsDict[IdAA]["divisions"][0].append(tpsIntervalVariables)
@@ -957,7 +956,7 @@ def generateIntervalVariablesForCPplacing(constants):
                     size=2,  # the size of all lecture interval variables is 1
                     length=2,  # the length of all lecture interval variables is 1
                     name=IdAA + "_pr" + "_" + str(occurence[AA[
-                        "subject"]]) + "_d_0")  # the 3_rd element of the list of the I-XXX-000 lecture will have the name "I-XXX-000_lec_2"
+                        "subject"]]))  # the 3_rd element of the list of the I-XXX-000 lecture will have the name "I-XXX-000_lec_2"
 
                 # all the interval variables are added to the first and only division for the AA
                 projectsDict[IdAA]["divisions"][0].append(projectsIntervalVariables)

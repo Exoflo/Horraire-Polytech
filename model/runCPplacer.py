@@ -125,7 +125,7 @@ model.write_information()
 ################# SETUP MODEL #################
 
 ################# SOLVING AND RESULTS #################
-solution = model.solve(TimeLimit=10)
+solution = model.solve(TimeLimit=20)
 
 # "if solution" is True if there is at least one solution
 if solution:
