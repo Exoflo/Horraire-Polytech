@@ -79,7 +79,7 @@ Generates variables and place them in appropriate dict for later use :
 """
 lecturesDict, exercisesDict, tpsDict, projectsDict, \
 groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, \
-cursusGroups, AAset = TFEvariables.generateIntervalVariables(constants)
+cursusGroups, AAset = TFEvariables.generateIntervalVariablesForCPplacing(constants)
 
 #print(lecturesDict, "\n",exercisesDict,"\n", tpsDict,"\n", projectsDict,"\n", \
 #groupsIntervalVariables,"\n", teachersIntervalVariables,"\n", roomsIntervalVariables,"\n", \
@@ -101,7 +101,7 @@ TFEconstraints.notOverlappingConstraint(model, roomsIntervalVariables)
 
 
 # constraint 6.3.9 (6.3.5 included) : Segment repartition
-TFEconstraints.spreadOverWeek(model,weekDict,constants)
+# TFEconstraints.spreadOverWeek(model,weekDict,constants)
 
 # constraint 6.3.10 : Theory before TP and exercices
 TFEconstraints.lecturesBeforeConstraint(model, lecturesDict, [exercisesDict,tpsDict], AAset, constants)
@@ -125,7 +125,7 @@ model.write_information()
 ################# SETUP MODEL #################
 
 ################# SOLVING AND RESULTS #################
-solution = model.solve(TimeLimit=60*2)
+solution = model.solve(TimeLimit=10)
 
 # "if solution" is True if there is at least one solution
 if solution:

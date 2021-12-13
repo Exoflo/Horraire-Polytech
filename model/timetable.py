@@ -35,7 +35,7 @@ def generateTimetables(solution, majorData, minorData1, minorData2, constants, c
                             displayName += ", ..."
                             breakFlag = True
                             break
-                        displayName += minorName1
+                        displayName += str(minorName1)
                         found = True
                         break
             displayName += "\n"
@@ -83,8 +83,8 @@ def saveTimetables(timetables, colorsDict, constants):
             dayOfSegment = j % constants["days"]
             if dayOfSegment == 0:
                 fig, ax = plt.subplots()
-                title = nameItem + " : Segment " + str(segmentCounter)
-                nameFile = nameItem + "_Segment_" + str(segmentCounter)
+                title = str(nameItem) + " : Segment " + str(segmentCounter)
+                nameFile = str(nameItem) + "_Segment_" + str(segmentCounter)
                 ax.set_title(title)
                 ax.set_xticks(np.linspace(0, 5, 6))
                 ax.set_yticks([0, 1, 1.125, 2.125, 2.625, 3.625, 3.750, 4.750])
