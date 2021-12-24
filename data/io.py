@@ -194,6 +194,7 @@ def loadData(fileDataset,quadri,sheet):
     elif sheet == "Teachers":
         dataset = {"teacher":[],"quadri":[],"weekStart":[],"dayStart":[],"slotStart":[],"weekEnd":[],"dayEnd":[],"slotEnd":[],"start":[],"end":[]}
 
+
     #CharleroiFixed Sheet
     elif sheet == "CharleroiFixed":
         dataset = {"teacher":[],"quadri":[],"AA":[],"room":[],"weekStart":[],"weekEnd":[],"day":[],"slot":[]}
@@ -209,7 +210,7 @@ def loadData(fileDataset,quadri,sheet):
 
 
     dataset = pd.DataFrame(data=dataset)
-    print(dataset)
+    #print(dataset)
 
     return dataset
 
