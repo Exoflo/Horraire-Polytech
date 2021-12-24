@@ -13,6 +13,158 @@ def loadData(fileDataset,quadri,sheet):
     :return dataset: (pandas.DataFrame) DataFrame containing data.
     """
 
+    dataset = {}
+    desiderata = {}
+
+    with open( "../data/"+ fileDataset, encoding='utf-8') as fh:
+        data = json.load(fh)
+
+    for des in data["deisderatas"]:
+        code = des["AAID"]["code"]
+        if code not in desiderata:
+            desiderata[code] = {}
+        if "WeekStartStop" not in desiderata[code]:
+            desiderata[code]["WeekStartStop"] = {"Theorie":[1, 12], "Exercice":[1, 12], "Travaux pratiques":[1, 12], "Projet":[1, 12]}
+
+        desiderata[code]["WeekStartStop"][des["desiderataTypeID"]["type"]][0] = des["semaine_debut"]
+        # uncomment by code below when backend start to bouger ses couilles
+        #desiderata[des["AAID"]["code"]]["WeekStartStop"][des["desiderataTypeID"]["type"]][1] = des["semaine_fin"]
+
+        if "listTeacher" not in desiderata[code]:
+            desiderata[code]["listTeacher"] = des["enseignantsouhaitee"]
+
+        if "Notes" not in desiderata[code]:
+            desiderata[code]["Notes"] = {"Order":"","Rythm":""}
+
+
+
+
+    if sheet == "TFE":
+        dataset = {"cursus":[],"id":[],"name":[],"quadri":[],"lectureHours":[],"lectureTeachers":[],"lectureRooms":[],"lectureWeekStart":[],"lectureWeekEnd":[],"exerciseHours":[],"exerciseDivisions":[],"exerciseTeachers":[],"exerciseRooms":[],"exerciseSplit":[],"exerciseWeekStart":[],"exerciseWeekEnd":[],"tpHours":[],"tpDuration":[],"tpDivisions":[],"tpTeachers":[],"tpRooms":[],"tpWeekStart":[],"tpWeekEnd":[],"projectHours":[],"projectDuration":[],"projectTeachers":[],"projectWeekStart":[],"projectWeekEnd":[],"TP_special":[],"Remediations":[],"Visits":[],"Order":[],"Rythm":[],"Lec > Ex":[],"Alterné / Bloc":[]}
+
+        for AA in data["aas"]:
+            # Cursus
+            cursus = ""
+            for cohorte in AA["cohortes"]:
+                if cohorte["cohorteName"] == "BA IC (B3 - TC)":
+                    cursus += "BA IC (B3 - CHIMIE/SDM),BA IC (B3 - ELEC),BA IC (B3 - IG),BA IC (B3 - MECA),BA IC (B3 - MINES),"
+                else:
+                    cursus += cohorte["cohorteName"] + ","
+
+            dataset["cursus"].append(cursus[:-1])
+
+            # Id/name/quadri/lectureHours/lectureTeachers:
+            dataset["id"].append(AA["code"])
+            dataset["name"].append(AA["name"])
+            dataset["quadri"].append(AA["quadri"])
+            dataset["lectureHours"].append(AA["ht"])
+            dataset["lectureTeachers"].append(",".join([x.split("@")[0].replace("."," ") for x in AA["titulaire"]]))
+
+            #lectureRooms (to see later)
+            dataset["lectureRooms"].append(AA[""])
+
+            #lectureWeekStart/lectureWeekEnd
+            dataset["lectureWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Theorie"][0])
+            dataset["lectureWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Theorie"][1])
+
+
+
+
+            #exerciseHours
+            dataset["exerciseHours"].append(AA["htpe"])
+
+            #exerciseDivisions/exerciseSplit
+            exodiv = {"V-LANG-151":8,"V-LANG-153":4,"V-LANG-155":4,"V-LANG-152":8,"V-LANG-154":4,"V-LANG-156":4}
+            if AA["code"] in exodiv:
+                dataset["exerciseDivisions"].append(exodiv[AA["code"]])
+                dataset["exerciseSplit"].append(1)
+            else:
+                dataset["exerciseDivisions"].append(1)
+                dataset["exerciseSplit"].append(0)
+
+            #exerciseTeachers
+            dataset["exerciseTeachers"].append(",".join([x.split("@")[0].replace("."," ") for x in desiderata[AA["code"]]["listTeacher"] ]))
+
+            # exerciseRooms (to see later)
+            dataset["exerciseRooms"].append(AA[""])
+
+            # exerciseWeekStart/exerciseWeekEnd
+            dataset["exerciseWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Exercice"][0])
+            dataset["exerciseWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Exercice"][1])
+
+            # tpHours/tpDuration/tpDivisions
+            dataset["tpHours"].append(AA["htps"])
+            dataset["tpDuration"].append(4)
+            dataset["tpDivisions"].append(4)
+
+            # tpTeachers
+            dataset["tpTeachers"].append(",".join(
+                [x["enseignantsouhaitee"].split("@")[0].replace(".", " ") for x in
+                 desiderata[AA["code"]]["listTeacher"]]))
+
+            # tpRooms (to see later)
+            dataset["tpRooms"].append(AA[""])
+
+            # tpWeekStart/tpWeekEnd
+            dataset["tpWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Travaux pratiques"][0])
+            dataset["tpWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Travaux pratiques"][1])
+
+
+
+
+            # projectHours/projectDuration
+            dataset["projectHours"].append(0)
+            dataset["projectDuration"].append(4)
+
+            # projectTeachers
+            dataset["projectTeachers"].append(",".join(
+                [x["enseignantsouhaitee"].split("@")[0].replace(".", " ") for x in
+                 desiderata[AA["code"]]["listTeacher"]]))
+
+            # projectWeekStart/projectWeekEnd
+            dataset["projectWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Projet"][0])
+            dataset["projectWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Projet"][1])
+
+
+
+
+            dataset["TP_special"].append(0)
+            dataset["Remediations"].append(AA["hr"])
+            dataset["Visits"].append(0)
+            dataset["Order"].append(desiderata[AA["code"]]["Notes"]["Order"])
+            dataset["Rythm"].append(desiderata[AA["code"]]["Notes"]["Rythm"])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    elif sheet == "Cursus":
+        dataset = {"cursus":[],"quadri":[],"weekStart":[],"dayStart":[],"slotStart":[],"weekEnd":[],"dayEnd":[],"slotEnd":[],"start":[],"end":[]}
+
+    elif sheet == "Teachers":
+        dataset = {"teacher":[],"quadri":[],"weekStart":[],"dayStart":[],"slotStart":[],"weekEnd":[],"dayEnd":[],"slotEnd":[],"start":[],"end":[]}
+
+    elif sheet == "CharleroiFixed":
+        dataset = {"teacher":[],"quadri":[],"AA":[],"room":[],"weekStart":[],"weekEnd":[],"day":[],"slot":[]}
+
+    elif sheet == "Charleroi":
+        dataset = {"teacher":[],"quadri":[],"AA":[],"room":[],"weekStart":[],"weekEnd":[]}
+
+    elif sheet == "Breaks":
+        dataset = {"name":[],"quadri":[],"weekStart":[],"dayStart":[],"slotStart":[],"weekEnd":[],"dayEnd":[],"slotEnd":[],"start":[],"end":[]}
+
     # (dtype=object) is mandatory in order to automatically convert integer values in .xlsx file into integer variables in Python
     dataset = pd.read_excel("../data/"+fileDataset, sheet_name=sheet, engine="openpyxl",dtype=object)
     dataset = dataset[dataset["quadri"]==quadri]
@@ -40,27 +192,15 @@ def loadCursusData(fileDataset):
             - key = (string) automatically generated group name (i.e. BA1_A, BA1_B, ...)
             - value = (integer) number of students in this group
     """
-
-    # (dtype=object) is mandatory in order to automatically convert integer values in .xlsx file into integer variables in Python
-    datasetCursus = pd.read_excel("../data/"+fileDataset, sheet_name="Groups",engine="openpyxl",dtype=object)
     cursusData = {}
-    for rowCursus in datasetCursus.itertuples():
-        cursusData[rowCursus.cursus] = {}
-        baseNumberOfStudents = math.trunc(rowCursus.totalStudents/rowCursus.numberGroups)
-        restNumberOfStudents = rowCursus.totalStudents%rowCursus.numberGroups
 
-        # the cursus is split in several groups named A,B,C,...
-        if rowCursus.numberGroups > 1:
-            for i in range(rowCursus.numberGroups):
-                # for not exact divisions, the rest is filled in first groups
-                # chr(i+65) generates capital letters A,B,C,...
-                cursusData[rowCursus.cursus][rowCursus.cursus+"_"+chr(i+65)] = baseNumberOfStudents + (1 if i < restNumberOfStudents else 0)
+    with open( "../data/"+ fileDataset, encoding='utf-8') as fh:
+        data = json.load(fh)
 
-        # the cursus has only one group
-        # in this case, cursusData[key] is a dict with one key-value entry where the group name is the same as the cursus name
-        # i.e. the BA3_IG cursus with x students results in : cursusData["BA3_IG"] = {"BA3_IG": x}
-        else:
-            cursusData[rowCursus.cursus][rowCursus.cursus] = baseNumberOfStudents
+    for group in data["groupes"]:
+        if group["cohorteName"] not in cursusData:
+            cursusData[group["cohorteName"]] = {}
+        cursusData[group["cohorteName"]][group["name"]] = group["numberOfStudents"]
 
     return cursusData
 

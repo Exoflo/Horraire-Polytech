@@ -45,18 +45,39 @@ constants = {
     "segmentSize":3,
     "roundUp": True,
     "cursus": {
-        "BA1": True,
-        "BA2": False,
-        "BA3_CHIM": False,
-        "BA3_ELEC": False,
-        "BA3_IG": True,
-        "BA3_MECA": False,
-        "BA3_MIN": False,
-        "MA1_CHIM": False,
-        "MA1_ELEC": False,
-        "MA1_IG": True,
-        "MA1_MECA": False,
-        "MA1_MIN": False,
+        "BA IC (B1)": True,
+        "BA IC ARCHI (B1)":False,
+        "BA IC (B2)": False,
+        "BA IC ARCHI (B2)":False,
+        "BA IC (B3 - CHIMIE/SDM)": False,
+        "BA IC (B3 - ELEC)": False,
+        "BA IC (B3 - IG)": True,
+        "BA IC (B3 - MECA)": False,
+        "BA IC (B3 - MINES)": False,
+        "BA IC ARCHI (B3)":False,
+        "MA IC CHIMIE-SDM P2E (B1)": False,
+        "MA IC CHIMIE-SDM SGM (B1)": False,
+        "MA IC ELEC AISC (B1)": False,
+        "MA IC ELEC EE (B1)": False,
+        "MA IC ELEC SigSys (B1)": False,
+        "MA IC IG MONS (B1)": True,
+        "MA IC MECA CP (B1)": False,
+        "MA IC MECA GE (B1)": False,
+        "MA IC MECA MECATRO (B1)": False,
+        "MA IC MINES (B1)": False,
+        "MA IC ARCHI (B1 - Option IBAT)":False,
+        "MA IC ARCHI (B1 - Option UDEBAT)":False,
+        "MA IC CHIMIE-SDM P2E (B2 - MO)": False,
+        "MA IC CHIMIE-SDM SGM (B2 - MO)": False,
+        "MA IC ELEC AISC (B2 - MO)": False,
+        "MA IC ELEC EE (B2 - MO)": False,
+        "MA IC ELEC SigSys (B2 - MO)": False,
+        "MA IC IG (B2 - MO)": False,
+        "MA IC MECA CP (B2 - MO)": False,
+        "MA IC MECA GE (B2 - MO)": False,
+        "MA IC MECA MECATRO (B2 - MO)": False,
+        "MA IC MINES (B2 - MO)": False,
+        "MA IC ARCHI (B2 - MO)": False
     },
     "quadri": "Q1",
     "fileDataset": "datasetFinal.xlsx",
@@ -136,7 +157,7 @@ model.write_information()
 ################# SETUP MODEL #################
 
 ################# SOLVING AND RESULTS #################
-solution = model.solve(TimeLimit=60*2)
+solution = model.solve(TimeLimit=60*4)
 
 # "if solution" is True if there is at least one solution
 if solution:
