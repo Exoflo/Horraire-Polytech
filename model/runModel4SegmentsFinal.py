@@ -55,18 +55,24 @@ constants = {
         "BA IC (B3 - MECA)": False,
         "BA IC (B3 - MINES)": False,
         "BA IC ARCHI (B3)":False,
+        "MA IC CHIMIE-SDM (B1)":False,
         "MA IC CHIMIE-SDM P2E (B1)": False,
         "MA IC CHIMIE-SDM SGM (B1)": False,
+        "MA IC ELEC (B1)":False,
         "MA IC ELEC AISC (B1)": False,
         "MA IC ELEC EE (B1)": False,
         "MA IC ELEC SigSys (B1)": False,
-        "MA IC IG MONS (B1)": True,
+        "MA IC ELEC (B1 - OPTION IPIT)":False,
+        "MA IC ELEC (B1 - OPTION PCRE)":False,
+        "MA IC IG (B1)": True,
+        "MA IC MECA (B1)":False,
         "MA IC MECA CP (B1)": False,
         "MA IC MECA GE (B1)": False,
         "MA IC MECA MECATRO (B1)": False,
         "MA IC MINES (B1)": False,
-        "MA IC ARCHI (B1 - Option IBAT)":False,
-        "MA IC ARCHI (B1 - Option UDEBAT)":False,
+        "MA IC ARCHI (B1)":False,
+        "MA IC ARCHI (B1 - IBAT)":False,
+        "MA IC ARCHI (B1 - UDEBAT)":False,
         "MA IC CHIMIE-SDM P2E (B2 - MO)": False,
         "MA IC CHIMIE-SDM SGM (B2 - MO)": False,
         "MA IC ELEC AISC (B2 - MO)": False,
@@ -77,10 +83,12 @@ constants = {
         "MA IC MECA GE (B2 - MO)": False,
         "MA IC MECA MECATRO (B2 - MO)": False,
         "MA IC MINES (B2 - MO)": False,
-        "MA IC ARCHI (B2 - MO)": False
+        "MA IC ARCHI (B2 - MO)": False,
+        "MA IC ARCHI (B2 - Option UDEBAT)":False,
+        "MA IC ARCHI (B2 - Option IBAT)":False
     },
     "quadri": "Q1",
-    "fileDataset": "datasetFinal.xlsx",
+    "fileDataset": "input.json",
     "folderResults": "4SegmentsFinal",
     "groupAuto": False
 }
@@ -101,9 +109,7 @@ lecturesDict, exercisesDict, tpsDict, projectsDict, \
 groupsIntervalVariables, teachersIntervalVariables, roomsIntervalVariables, \
 cursusGroups, AAset = TFEvariables.generateIntervalVariables(constants)
 
-print(lecturesDict, "\n",exercisesDict,"\n", tpsDict,"\n", projectsDict,"\n",
-groupsIntervalVariables,"\n", teachersIntervalVariables,"\n", roomsIntervalVariables,"\n",
-cursusGroups,"\n", AAset,"\n")
+print("Reading data : " + str(time.time() - begin))
 
 # constraint 6.3.4 : Unavailability
 TFEconstraints.cursusUnavailabilityConstraint(model, cursusGroups, groupsIntervalVariables, constants)

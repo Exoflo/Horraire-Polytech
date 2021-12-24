@@ -19,7 +19,7 @@ def loadData(fileDataset,quadri,sheet):
     with open( "../data/"+ fileDataset, encoding='utf-8') as fh:
         data = json.load(fh)
 
-    for des in data["deisderatas"]:
+    for des in data["desideratas"]:
         code = des["AAID"]["code"]
         if code not in desiderata:
             desiderata[code] = {}
@@ -36,9 +36,13 @@ def loadData(fileDataset,quadri,sheet):
         if "Notes" not in desiderata[code]:
             desiderata[code]["Notes"] = {"Order":"","Rythm":""}
 
+        if "exoAfterTheo" not in desiderata[code]:
+            desiderata[code]["exoAfterTheo"] = int(des["exoAfterTheo"])
 
 
 
+
+    #TFE Sheet
     if sheet == "TFE":
         dataset = {"cursus":[],"id":[],"name":[],"quadri":[],"lectureHours":[],"lectureTeachers":[],"lectureRooms":[],"lectureWeekStart":[],"lectureWeekEnd":[],"exerciseHours":[],"exerciseDivisions":[],"exerciseTeachers":[],"exerciseRooms":[],"exerciseSplit":[],"exerciseWeekStart":[],"exerciseWeekEnd":[],"tpHours":[],"tpDuration":[],"tpDivisions":[],"tpTeachers":[],"tpRooms":[],"tpWeekStart":[],"tpWeekEnd":[],"projectHours":[],"projectDuration":[],"projectTeachers":[],"projectWeekStart":[],"projectWeekEnd":[],"TP_special":[],"Remediations":[],"Visits":[],"Order":[],"Rythm":[],"Lec > Ex":[],"Alterné / Bloc":[]}
 
@@ -58,14 +62,19 @@ def loadData(fileDataset,quadri,sheet):
             dataset["name"].append(AA["name"])
             dataset["quadri"].append(AA["quadri"])
             dataset["lectureHours"].append(AA["ht"])
-            dataset["lectureTeachers"].append(",".join([x.split("@")[0].replace("."," ") for x in AA["titulaire"]]))
+            dataset["lectureTeachers"].append(",".join([x.split("@")[0].replace("."," ") for x in AA["titulaires"]]))
 
             #lectureRooms (to see later)
-            dataset["lectureRooms"].append(AA[""])
+            dataset["lectureRooms"].append("")
 
             #lectureWeekStart/lectureWeekEnd
-            dataset["lectureWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Theorie"][0])
-            dataset["lectureWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Theorie"][1])
+            if AA["code"] in desiderata:
+                dataset["lectureWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Theorie"][0])
+                dataset["lectureWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Theorie"][1])
+            else:
+                dataset["lectureWeekStart"].append(1)
+                dataset["lectureWeekEnd"].append(12)
+                print(AA["code"],": No desiderata available")
 
 
 
@@ -83,14 +92,21 @@ def loadData(fileDataset,quadri,sheet):
                 dataset["exerciseSplit"].append(0)
 
             #exerciseTeachers
-            dataset["exerciseTeachers"].append(",".join([x.split("@")[0].replace("."," ") for x in desiderata[AA["code"]]["listTeacher"] ]))
+            if AA["code"] in desiderata:
+                dataset["exerciseTeachers"].append(",".join([x.split("@")[0].replace("."," ") for x in desiderata[AA["code"]]["listTeacher"] ]))
+            else:
+                dataset["exerciseTeachers"].append("")
 
             # exerciseRooms (to see later)
-            dataset["exerciseRooms"].append(AA[""])
+            dataset["exerciseRooms"].append("")
 
             # exerciseWeekStart/exerciseWeekEnd
-            dataset["exerciseWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Exercice"][0])
-            dataset["exerciseWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Exercice"][1])
+            if AA["code"] in desiderata:
+                dataset["exerciseWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Exercice"][0])
+                dataset["exerciseWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Exercice"][1])
+            else:
+                dataset["exerciseWeekStart"].append(1)
+                dataset["exerciseWeekEnd"].append(12)
 
             # tpHours/tpDuration/tpDivisions
             dataset["tpHours"].append(AA["htps"])
@@ -98,16 +114,21 @@ def loadData(fileDataset,quadri,sheet):
             dataset["tpDivisions"].append(4)
 
             # tpTeachers
-            dataset["tpTeachers"].append(",".join(
-                [x["enseignantsouhaitee"].split("@")[0].replace(".", " ") for x in
-                 desiderata[AA["code"]]["listTeacher"]]))
+            if AA["code"] in desiderata:
+                dataset["tpTeachers"].append(",".join([x.split("@")[0].replace(".", " ") for x in desiderata[AA["code"]]["listTeacher"]]))
+            else:
+                dataset["tpTeachers"].append("")
 
             # tpRooms (to see later)
-            dataset["tpRooms"].append(AA[""])
+            dataset["tpRooms"].append("")
 
             # tpWeekStart/tpWeekEnd
-            dataset["tpWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Travaux pratiques"][0])
-            dataset["tpWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Travaux pratiques"][1])
+            if AA["code"] in desiderata:
+                dataset["tpWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Travaux pratiques"][0])
+                dataset["tpWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Travaux pratiques"][1])
+            else:
+                dataset["tpWeekStart"].append(1)
+                dataset["tpWeekEnd"].append(12)
 
 
 
@@ -116,14 +137,17 @@ def loadData(fileDataset,quadri,sheet):
             dataset["projectHours"].append(0)
             dataset["projectDuration"].append(4)
 
-            # projectTeachers
-            dataset["projectTeachers"].append(",".join(
-                [x["enseignantsouhaitee"].split("@")[0].replace(".", " ") for x in
-                 desiderata[AA["code"]]["listTeacher"]]))
+            # projectTeachers/projectWeekStart/projectWeekEnd
+            if AA["code"] in desiderata:
+                dataset["projectTeachers"].append(",".join([x.split("@")[0].replace(".", " ") for x in desiderata[AA["code"]]["listTeacher"]]))
+                dataset["projectWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Projet"][0])
+                dataset["projectWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Projet"][1])
+            else:
+                dataset["projectTeachers"].append("")
+                dataset["projectWeekStart"].append(1)
+                dataset["projectWeekEnd"].append(12)
 
-            # projectWeekStart/projectWeekEnd
-            dataset["projectWeekStart"].append(desiderata[AA["code"]]["WeekStartStop"]["Projet"][0])
-            dataset["projectWeekEnd"].append(desiderata[AA["code"]]["WeekStartStop"]["Projet"][1])
+
 
 
 
@@ -131,44 +155,62 @@ def loadData(fileDataset,quadri,sheet):
             dataset["TP_special"].append(0)
             dataset["Remediations"].append(AA["hr"])
             dataset["Visits"].append(0)
-            dataset["Order"].append(desiderata[AA["code"]]["Notes"]["Order"])
-            dataset["Rythm"].append(desiderata[AA["code"]]["Notes"]["Rythm"])
+            if AA["code"] in desiderata:
+                dataset["Order"].append(desiderata[AA["code"]]["Notes"]["Order"])
+                dataset["Rythm"].append(desiderata[AA["code"]]["Notes"]["Rythm"])
+                dataset["Lec > Ex"].append(desiderata[AA["code"]]["exoAfterTheo"])
+            else:
+                dataset["Order"].append("")
+                dataset["Rythm"].append("")
+                dataset["Lec > Ex"].append(1)
+
+            dataset["Alterné / Bloc"].append("non")
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+    #Cursus Sheet
     elif sheet == "Cursus":
         dataset = {"cursus":[],"quadri":[],"weekStart":[],"dayStart":[],"slotStart":[],"weekEnd":[],"dayEnd":[],"slotEnd":[],"start":[],"end":[]}
 
+        #Bac1 : wednesday
+        for i in range(24):
+            dataset["cursus"].append("BA IC (B1)")
+            dataset["quadri"].append("Q" + str(i//12 + 1))
+            dataset["weekStart"].append(i+1)
+            dataset["dayStart"].append(3)
+            dataset["slotStart"].append(3)
+            dataset["weekEnd"].append(i+1)
+            dataset["dayEnd"].append(3)
+            dataset["slotEnd"].append(4)
+            dataset["start"].append(10 + 20*i)
+            dataset["end"].append(12 + 20*i)
+
+
+
+
+    #Teachers Sheet
     elif sheet == "Teachers":
         dataset = {"teacher":[],"quadri":[],"weekStart":[],"dayStart":[],"slotStart":[],"weekEnd":[],"dayEnd":[],"slotEnd":[],"start":[],"end":[]}
 
+    #CharleroiFixed Sheet
     elif sheet == "CharleroiFixed":
         dataset = {"teacher":[],"quadri":[],"AA":[],"room":[],"weekStart":[],"weekEnd":[],"day":[],"slot":[]}
 
+    #Charleroi Sheet
     elif sheet == "Charleroi":
         dataset = {"teacher":[],"quadri":[],"AA":[],"room":[],"weekStart":[],"weekEnd":[]}
 
+    #Breaks Sheet
     elif sheet == "Breaks":
         dataset = {"name":[],"quadri":[],"weekStart":[],"dayStart":[],"slotStart":[],"weekEnd":[],"dayEnd":[],"slotEnd":[],"start":[],"end":[]}
 
-    # (dtype=object) is mandatory in order to automatically convert integer values in .xlsx file into integer variables in Python
-    dataset = pd.read_excel("../data/"+fileDataset, sheet_name=sheet, engine="openpyxl",dtype=object)
-    dataset = dataset[dataset["quadri"]==quadri]
-    print(type(dataset))
+
+
+    dataset = pd.DataFrame(data=dataset)
+    print(dataset)
+
     return dataset
 
 def loadCursusData(fileDataset):
